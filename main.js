@@ -10,17 +10,17 @@ const products = [
     { id: 9, name: "Organic Cotton T-shirt", category: "Apparel", price: 25, tags: ["eco-friendly"]},
 ];
 
-let selectedCategory = "All";
-let selectedTags = [];
+let catergoryForSelect= "All";
+let tagsForSelect = [];
 
 function printProducts(){
     let productContainer = document.querySelector('.products');
     productContainer.textContent = ``;
 
     let filterd = products.filter((elem) => {
-        let categFilter = selectedCategory === "All" || elem.category === selectedCategory;
+        let categFilter = catergoryForSelect === "All" || elem.category === catergoryForSelect;
 
-        let tagFilter = selectedTags.every(item => elem.tags.includes(item));
+        let tagFilter = tagsForSelect.every(item => elem.tags.includes(item));
         return categFilter && tagFilter;
     });
     if(filterd.length == 0){
@@ -31,14 +31,30 @@ function printProducts(){
         });
     }
 }
-printProducts()
+function getAllCategory(products){
+    return ['All', ...new Set(products.map(elem => elem.category))];
+}
+
+function changeCategoryDropDown(categories){
+    let catDropDown = document.getElementById('select');
+    catDropDown.textContent = ``;
+    categories.forEach((elem) => {
+        let option = document.createElement('option');
+        option.text = elem;
+        catDropDown.appendChild(option);
+    });
+    catDropDown.value = 'All';
+}
+
+let allCategories = getAllCategory(products);
+changeCategoryDropDown(allCategories);
 
 function changeChackbox(){
-    selectedCategory = document.getElementById('select').value;
-    selectedTags = [];
-    if(document.getElementById('newT').checked) selectedTags.push('new');
-    if(document.getElementById('saleT').checked) selectedTags.push('sale');
-    if(document.getElementById('eco-fT').checked) selectedTags.push('eco-friendly');
+    catergoryForSelect = document.getElementById('select').value;
+    tagsForSelect = [];
+    if(document.getElementById('newT').checked) tagsForSelect.push('new');
+    if(document.getElementById('saleT').checked) tagsForSelect.push('sale');
+    if(document.getElementById('eco-fT').checked) tagsForSelect.push('eco-friendly');
     printProducts();
 }
 
@@ -46,4 +62,5 @@ document.querySelector("#select").addEventListener('change', changeChackbox);
 document.querySelectorAll('input[type=checkbox]').forEach((elem) => {elem.addEventListener('change', changeChackbox);
 });
 
+printProducts();
   

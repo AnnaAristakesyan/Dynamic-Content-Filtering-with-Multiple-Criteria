@@ -12,7 +12,16 @@
 }
 .filter-area{
     display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 60px;
+}
+.tag-area{
+    display: flex;
+    align-items: center;
+}
+select{
+    height: 30px;
 }
 .category-area{
     display: flex;
